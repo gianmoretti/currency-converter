@@ -1,0 +1,47 @@
+{
+  "name": "currency-converter",
+  "version": "1.0.0",
+  "main": "./dist/main.js",
+  "license": "UNLICENSED",
+  "description": "Generated project - currency-converter",
+  "bin": {
+    "server": "./dist/main.js"
+  },
+  "pkg": {
+    "targets": [
+      "latest-macos-x64",
+      "latest-linux-x64",
+      "latest-alpine-x64",
+      "latest-win-x64"
+    ]
+  },
+  "scripts": {
+    "start": "node ./dist/main.js",
+    "build": "npm run-script test && npm run-script clean && npm run-script lint && npm run-script compile",
+    "compile": "tsc -p ./tsconfig.build.json",
+    "pkg": "npm run-script build && pkg . --output ./bin/server",
+    "test": "jest --detectOpenHandles",
+    "lint": "tslint -c ./tslint.json -p tsconfig.json",
+    "clean": "rimraf dist && rimraf bin",
+    "deploy": "npm run-script lint && npm run-script build && npm publish --access public",
+    "docker-build": "npm run-script build && docker build -t currency-converter:$npm_package_version ."
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.2",
+    "@types/pino": "^5.17.0",
+    "@types/supertest": "^2.0.8",
+    "supertest": "^4.0.2",
+    "jest": "^25.1.0",
+    "pkg": "^4.4.4",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^25.2.1",
+    "ts-node": "^8.7.0",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@msiviero/knit": "^2.5.5",
+    "typemoq": "^2.1.0"
+  }
+}
