@@ -25,7 +25,7 @@ describe("Http server custom instance", () => {
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/03/10");
+    const refDate: Date = new Date("2020-03-10");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -46,7 +46,7 @@ describe("Http server custom instance", () => {
     const amount: number = 3.5;
     const srcCurrency: string = "AUD";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/03/10");
+    const refDate: Date = new Date("2020-03-10");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -67,7 +67,7 @@ describe("Http server custom instance", () => {
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2010/03/10");
+    const refDate: Date = new Date("2010-03-10");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -89,7 +89,7 @@ describe("Http server custom instance", () => {
   it("when src_currency param is missing should serve requests and return an error", async () => {
     const amount: number = 1;
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/29");
+    const refDate: Date = new Date("2020-04-29");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -108,7 +108,7 @@ describe("Http server custom instance", () => {
   it("when dest_currency param is missing should serve requests and return an error", async () => {
     const amount: number = 1;
     const srcCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/29");
+    const refDate: Date = new Date("2020-04-29");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -128,7 +128,7 @@ describe("Http server custom instance", () => {
     const badAmount = "bad value";
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/29");
+    const refDate: Date = new Date("2020-04-29");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -148,7 +148,7 @@ describe("Http server custom instance", () => {
   it("when amount param is missing should serve requests and return an error", async () => {
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/29");
+    const refDate: Date = new Date("2020-04-29");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)

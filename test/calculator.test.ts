@@ -25,7 +25,7 @@ describe("Calculator instance", () => {
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/28");
+    const refDate: Date = new Date("2020-04/28");
 
     const actual = await sut.calculate(
       amount,
@@ -60,7 +60,7 @@ describe("Calculator instance", () => {
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/28");
+    const refDate: Date = new Date("2020-04/28");
 
     const actual = await sut.calculate(
       amount,
