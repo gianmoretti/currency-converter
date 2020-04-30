@@ -42,6 +42,10 @@
   },
   "dependencies": {
     "@msiviero/knit": "^2.5.5",
-    "typemoq": "^2.1.0"
+    "fast-xml-parser": "^3.16.0",
+    "moment": "^2.24.0",
+    "typed-rest-client": "^1.7.3",
+    "typemoq": "^2.1.0",
+    "winston": "^3.2.1"
   }
 }

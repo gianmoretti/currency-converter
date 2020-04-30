@@ -1,13 +1,11 @@
 export interface DailyConfigs {
-  dailyConfigs: DailyConfig[];
+  rates: DateRates;
 }
 
-export interface DailyConfig {
-  time: Date;
-  rates: RateConfig[];
+export interface DateRates {
+  [date: string]: Rates;
 }
 
-export interface RateConfig {
-  currency: string;
-  rate: number;
+export interface Rates {
+  [currency: string]: number;
 }

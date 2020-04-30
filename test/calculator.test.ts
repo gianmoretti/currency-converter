@@ -16,18 +16,23 @@ describe("Calculator instance", () => {
       .setup((rateService) =>
         rateService.getRate(It.isValue("EUR"), It.isAny())
       )
-      .returns(() => 1);
+      .returns(() => Promise.resolve(1));
 
     exchangeRateServiceMock
       .setup((rateService) => rateService.getRate("USD", It.isAny()))
-      .returns(() => 1.0852);
+      .returns(() => Promise.resolve(1.0852));
 
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
     const refDate: Date = new Date("2020/04/28");
 
-    const actual = sut.calculate(amount, srcCurrency, destCurrency, refDate);
+    const actual = await sut.calculate(
+      amount,
+      srcCurrency,
+      destCurrency,
+      refDate
+    );
     expect(actual).toEqual(1.0852);
 
     exchangeRateServiceMock.verify(

@@ -4,24 +4,28 @@ import { Converter } from "../src/api/converter";
 import { CalculatorService } from "../src/service/calculator";
 import { ExchangeRateService } from "../src/service/rate";
 import { ConfigProvider } from "../src/service/config";
+import { Client } from "../src/client/http";
+import { RestClient } from "typed-rest-client";
 
 describe("Http server custom instance", () => {
   const container = new Container()
     .register(Converter, Scope.Singleton)
     .register(CalculatorService, Scope.Singleton)
     .register(ExchangeRateService, Scope.Singleton)
-    .register(ConfigProvider, Scope.Singleton);
+    .register(ConfigProvider, Scope.Singleton)
+    .register(Client, Scope.Singleton)
+    .register(RestClient, Scope.Singleton);
 
   const httpServer = new HttpServer(container).api(Converter);
 
   beforeAll(() => httpServer.start({ port: 0 }));
   afterAll(() => httpServer.stop());
 
-  it("should register endpoint and serve requests", async () => {
+  it("given EUR as src currency should register endpoint and serve requests", async () => {
     const amount: number = 1;
     const srcCurrency: string = "EUR";
     const destCurrency: string = "USD";
-    const refDate: Date = new Date("2020/04/29");
+    const refDate: Date = new Date("2020/03/10");
 
     const response = await supertest(httpServer.getServer())
       .get(`/convert`)
@@ -34,7 +38,51 @@ describe("Http server custom instance", () => {
       .expect(200);
 
     expect(response.text).toEqual(
-      JSON.stringify({ amount: 1.2345, currency: "USD" })
+      JSON.stringify({ amount: 1.139, currency: "USD" })
+    );
+  });
+
+  it("given AUD as src currency should register endpoint and serve requests", async () => {
+    const amount: number = 3.5;
+    const srcCurrency: string = "AUD";
+    const destCurrency: string = "USD";
+    const refDate: Date = new Date("2020/03/10");
+
+    const response = await supertest(httpServer.getServer())
+      .get(`/convert`)
+      .query({
+        amount,
+        src_currency: srcCurrency,
+        dest_currency: destCurrency,
+        reference_date: refDate,
+      })
+      .expect(200);
+
+    expect(response.text).toEqual(
+      JSON.stringify({ amount: 2.2941, currency: "USD" })
+    );
+  });
+
+  it("when ref_date param is too old should serve requests and return an error", async () => {
+    const amount: number = 1;
+    const srcCurrency: string = "EUR";
+    const destCurrency: string = "USD";
+    const refDate: Date = new Date("2010/03/10");
+
+    const response = await supertest(httpServer.getServer())
+      .get(`/convert`)
+      .query({
+        amount,
+        src_currency: srcCurrency,
+        dest_currency: destCurrency,
+        reference_date: refDate,
+      })
+      .expect(404);
+
+    expect(response.text).toEqual(
+      JSON.stringify({
+        message: "exchange rate not found, amount not processable",
+      })
     );
   });
 

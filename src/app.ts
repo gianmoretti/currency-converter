@@ -1,5 +1,6 @@
-import { Container, HttpServer, injectable } from "@msiviero/knit";
+import { Container, HttpServer, injectable, Scope } from "@msiviero/knit";
 import { Converter } from "./api/converter";
+import { RestClient } from "typed-rest-client";
 
 @injectable()
 class Application {
@@ -13,5 +14,8 @@ class Application {
 }
 
 export const runner = () => {
-  Container.getInstance().resolve(Application).run();
+  Container.getInstance()
+    .register(RestClient, Scope.Singleton)
+    .resolve(Application)
+    .run();
 };

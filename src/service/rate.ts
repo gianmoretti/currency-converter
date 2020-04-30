@@ -1,28 +1,31 @@
 import { injectable } from "@msiviero/knit";
 import { ConfigProvider } from "./config";
-import { DailyConfigs, RateConfig, DailyConfig } from "../configType";
+import { DailyConfigs, Rates } from "../configType";
+import * as moment from "moment";
+
+const KEY_DATE_FORMAT = "YYYY-MM-DD";
 
 @injectable()
 export class ExchangeRateService {
-  private readonly config: DailyConfigs;
+  private readonly config: Promise<DailyConfigs>;
 
   constructor(private readonly configProvider: ConfigProvider) {
-    this.config = this.configProvider.loadConfig();
+    this.config = this.configProvider.getOnlineConfig();
   }
 
-  public getRate(currency: string, refDate: Date): number | undefined {
+  public async getRate(
+    currency: string,
+    refDate: Date
+  ): Promise<number | undefined> {
     if (currency === "EUR") return 1;
 
-    const dailyConfigRef:
-      | DailyConfig
-      | undefined = this.config.dailyConfigs.find(
-      (dailyConfig) => dailyConfig.time.getTime() === refDate.getTime()
-    );
+    const strRefDate = moment(refDate).format(KEY_DATE_FORMAT);
+    const dailyConfigRef: Rates | undefined = (await this.config).rates[
+      strRefDate
+    ];
     if (!dailyConfigRef) return undefined;
-    const rateConfigRef: RateConfig | undefined = dailyConfigRef!.rates.find(
-      (rateConfig) => rateConfig.currency === currency
-    );
+    const rateConfigRef: number | undefined = dailyConfigRef![currency];
     if (!rateConfigRef) return undefined;
-    return rateConfigRef.rate;
+    return rateConfigRef;
   }
 }

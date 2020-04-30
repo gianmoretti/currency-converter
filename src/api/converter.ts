@@ -50,9 +50,20 @@ export class Converter {
       });
       return;
     }
-
+    const calculatedAmount = await this.service.calculate(
+      parsedAmountFloat,
+      src_currency!,
+      dest_currency!,
+      parsedReferenceDate
+    );
+    if (!calculatedAmount) {
+      exchange.response.status(404).send({
+        message: "exchange rate not found, amount not processable",
+      });
+      return;
+    }
     exchange.response.status(200).send({
-      amount: this.service.calculate(
+      amount: await this.service.calculate(
         parsedAmountFloat,
         src_currency!,
         dest_currency!,
