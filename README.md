@@ -1,16 +1,18 @@
 # Currency Converter
 
-Short project description of it does
+The Currency Converter implements an online currency converter, providing a Web API endpoint called convert. The endpoint accepts HTTP GET requests.
+
+About the technologies, the implementation is based on NodeJS and the source code is written in Typescript.
 
 ## Project dependencies
 
 The implementation is based on these external libraries:
 
-- dependency injection framework called Knit that allow the method annotation
-- [fastify](https://www.fastify.io/) instead of express as http server
+- a dependency injection framework called Knit that allows the method annotation
+- [fastify](https://www.fastify.io/) as http server
 - winston for logging
 - typed-rest-client as rest client
-- typemoq as mocking framework in the unit tests
+- typemoq as mocking framework into the unit tests
 
 ## Related projects
 
@@ -36,15 +38,22 @@ http://localhost:8080/convert?amount=1&src_currency=EUR&dest_currency=USD&refere
 ## Env Vars
 
 List of enviroment variables:
-PORT: set the http port (default 8080)
-LOG_LEVEL: set the log level (default debug)
-NODE_ENV: set the environment (default empty that means development)
-CLUSTERING: define if we want to use clustering configuration or not (default false)
-DECIMAL_APPROXIMATION: define the number of decimals to consider (default 10000 that means 4 digit)
-BACKWARD_MONTHS: define the window size to consider during the exchange config loading (default 4)
+
+- `PORT`: set the http port (default 8080)
+- `LOG_LEVEL`: set the log level (default debug)
+- `NODE_ENV`: set the environment (default empty that means development)
+- `CLUSTERING`: define if we want to use clustering configuration or not (default false)
+- `DECIMAL_APPROXIMATION`: define the number of decimals to consider (default 10000 that means 4 digit)
+- `BACKWARD_MONTHS`: define the window size to consider during the exchange config loading (default 4)
 
 ## How to launch
 
-QUI
+Follow these instruction for installing dependencies, build, launch the tests, verify the source code format and starting the application.
 
-## Deployment
+```sh
+$ npm install
+$ npm run-script build
+$ npm run-script test
+$ npm run-script lint
+$ npm run-script docker-build
+```
